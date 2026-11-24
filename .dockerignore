@@ -1,0 +1,15 @@
+.git
+.dvc
+data/raw/train.csv
+data/raw/later.csv
+data/train.csv
+data/later.csv
+__pycache__
+*.pyc
+.pytest_cache
+.coverage
+htmlcov
+mlruns/
+mlartifacts/
+.ipynb_checkpoints
+G214_MP130/
