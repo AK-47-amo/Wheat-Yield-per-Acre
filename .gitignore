@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# MLflow artifacts (SQLite mlflow.db is committed)
+mlruns/
+mlartifacts/
+
+# Raw large CSV data tracked with DVC
+/data/raw/train.csv
+/data/raw/later.csv
+/data/train.csv
+/data/later.csv
+/data/holdout_features.csv
+
+# Extracted zip duplicate subfolder
+G214_MP130/
