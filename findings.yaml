@@ -1,0 +1,62 @@
+# MP130 findings --- fill in every value, keep every key.
+# The marking tool reads this file. Write null only where the comment says so.
+# Use the exact column names and group values from your data files.
+
+group_id: "G214"          # your group id, e.g. "G042"
+problem_id: "MP130"
+
+data_issues:
+  # For each of the 7 kinds: present: true or false.
+  # If present is false, leave the other values as null.
+  leaking_column:
+    present: true
+    column: yield_from_mandi_receipt           # the column that must not be used as a feature
+  unit_mixup:
+    present: true
+    column: fertilizer_kg           # the column recorded in a different unit
+    group_value: Tehsil South      # the value of tehsil whose rows are affected
+    factor: 1000           # wrong value = right value x factor
+  sentinel_value:
+    present: true
+    column: rainfall_mm
+    value: -1            # the special number typed instead of a blank
+    count: 42            # how many rows have it
+  duplicate_rows:
+    present: false
+    count: null            # number of EXTRA copies (rows you would delete)
+  stuck_sensor:
+    present: true
+    column: soil_ph
+    start_date: 2026-03-12       # first date with the stuck value, YYYY-MM-DD
+    end_date: 2026-03-28         # last date with the stuck value, YYYY-MM-DD
+  target_typos:
+    present: false
+    count: null            # rows whose target was typed 10 times too big
+  spelling_variants:
+    present: false
+    column: null
+    true_levels: null      # how many real categories there are after cleaning
+
+tracking:
+  experiment_name: wheat_yield_mp130
+  best_run_id: 5de52d00b39e48e28108e50369af345f        # the MLflow run id of your v1 model
+  registered_model_name: wheat_yield_mp130
+  champion_version: 2
+
+monitoring:
+  psi:                     # cleaned train.csv vs later.csv, 10 bins
+    rainfall_mm: 0.1131
+    fertilizer_kg: 0.0233
+    sowing_delay_days: 0.0049
+    irrigation_count: 0.0344
+    soil_ph: 0.1079
+    farm_acres: 3.4393
+  most_drifted_feature: farm_acres
+  mae_by_group:            # v1 on later.csv, per value of tehsil
+    'Tehsil North': 1.7754
+    'Tehsil South': 7.2488
+    'Tehsil West': 2.9499
+  worst_served_group: 'Tehsil South'
+  mae_v1_on_check: 4.099    # v1 on the last 30% of later.csv (by date)
+  mae_v2_on_check: 1.6709    # v2 on the same rows
+  decision: promote           # promote or keep
